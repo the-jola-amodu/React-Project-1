@@ -20,19 +20,19 @@ const Main = () => {
                 <p>How can I help you today?</p>
             </div>
             <div className="cards">
-                <div className="card">
+                <div onClick={()=>onSent("What were you created for?")} className="card">
                     <p>What were you created for?</p>
                     <img src={assets.question} alt="" />
                 </div>
-                <div className="card">
+                <div onClick={()=>onSent("Briefly describe Jolaoluwa")} className="card">
                     <p>Briefly describe Jolaoluwa</p>
                     <img src={assets.bulb_icon} alt="" />
                 </div>
-                <div className="card">
+                <div onClick={()=>onSent("Brainstorm LinkedIn bullet points for a SWE Internship")} className="card">
                     <p>Brainstorm LinkedIn bullet points for a SWE Internship</p>
                     <img src={assets.message_icon} alt="" />
                 </div>
-                <div className="card">
+                <div onClick={()=>onSent("Improve the readability of the following code")} className="card">
                     <p>Improve the readability of the following code</p>
                     <img src={assets.code_icon} alt="" />
                 </div>

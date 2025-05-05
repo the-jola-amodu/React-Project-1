@@ -6,6 +6,7 @@ import { Context } from '../../context/Context'
 const Sidebar = () => {
 
     const [extended, setExtended] = useState(false)
+    const [showAbout, setShowAbout] = useState(false);
     const {onSent, prevPrompts, setRecentPrompt, newChat} = useContext(Context)
 
     const loadPrompt = async (prompt) => {
@@ -35,19 +36,20 @@ const Sidebar = () => {
             </div> : null}
         </div>
         <div className="bottom">
-            <div className="bottom-item recent-entry">
+            <div onClick={()=>setShowAbout(prev=>!prev)} className="bottom-item recent-entry">
                 <img src={assets.question_icon} alt="" />
-                {extended ? <p>Help</p> : null}
-            </div>
-            <div className="bottom-item recent-entry">
-                <img src={assets.history_icon} alt="" />
-                {extended ? <p>Activity</p> : null}
+                {extended ? <p>About</p> : null}
             </div>
             <div className="bottom-item recent-entry">
                 <img src={assets.setting_icon} alt="" />
                 {extended ? <p>Settings</p> : null}
             </div>
         </div>
+        {showAbout && (
+            <div className="about">
+              Customized RAG using Gemini 2.0 flash, custom system prompt and database
+            </div>
+          )}
     </div>
   )
 }

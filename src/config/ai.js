@@ -6,6 +6,8 @@ const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY
 
 import { GoogleGenAI,} from '@google/genai';
 
+let contents = [];
+
 async function runChat(prompt) {
 const ai = new GoogleGenAI({apiKey: GEMINI_API_KEY,});
 const tools = [{ googleSearch: {} },];
@@ -20,16 +22,11 @@ const config = {
     ],
 };
 const model = 'gemini-2.0-flash';
-const contents = [
-    {
+
+contents.push({
     role: 'user',
-    parts: [
-        {
-        text: prompt,
-        },
-    ],
-    },
-];
+    parts: [{"text": prompt}]
+})
 
 const response = await ai.models.generateContentStream({
     model,
@@ -40,7 +37,10 @@ var fullResponse = ""
 for await (const chunk of response) {
     fullResponse += chunk.text
 }
-console.log(fullResponse);
+contents.push({
+    role: 'model',
+    parts: [{"text": fullResponse}]
+})
 return fullResponse;
 }
 
