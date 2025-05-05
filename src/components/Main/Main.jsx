@@ -11,7 +11,7 @@ const Main = () => {
     <div className='main'>
         <div className='nav'>
             <p>J.A.I.</p>
-            <img src={assets.user_icon} alt="" />
+            <img src={assets.model_icon} alt="" />
         </div>
         <div className="main-container">
             {!showResult ? <>
@@ -39,11 +39,11 @@ const Main = () => {
             </div>
             </> : <div className='result'>
                 <div className="result-title">
-                    <img src={assets.user_icon} alt="" />
+                    <img src={assets.prompt_icon} alt="" />
                     <p>{recentPrompt}</p>
                 </div>
                 <div className="result-data">
-                    <img src={assets.gemini_icon} alt="" />
+                    <img src={assets.model_icon} alt="" />
                     {loading ? <div className='loader'>
                         <hr />
                         <hr />
