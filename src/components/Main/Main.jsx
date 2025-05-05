@@ -1,11 +1,23 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './Main.css'
 import {assets} from '../../assets/assets'
 import { Context } from '../../context/Context'
+import SpeechRecognition, {useSpeechRecognition} from 'react-speech-recognition'
 
 const Main = () => {
 
     const {onSent, recentPrompt, showResult, loading, resultData, input, setInput} = useContext(Context);
+    const {transcript, listening, resetTranscript, browserSupportSpeechRecognition} = useSpeechRecognition()
+
+    useEffect(()=>{
+        if(listening){
+            setInput(transcript)
+        }
+    }, [transcript])
+
+    useEffect(()=>{
+        console.log("Listening:", listening, "Transcript:", transcript)
+    }, [listening])
 
   return (
     <div className='main'>
@@ -54,7 +66,15 @@ const Main = () => {
             <div className="main-bottom">
                 <div className="search-box">
                     <input onChange={(e) =>setInput(e.target.value)} value={input} type="text" placeholder='Enter a prompt here' />
-                    <div>
+                    <div onClick={() =>{
+                        if(listening){
+                            SpeechRecognition.stopListening()
+                        }
+                        else{
+                            resetTranscript();
+                            SpeechRecognition.startListening({continuous: true})
+                        }
+                        console.log("Listening:", listening, "Transcript:", transcript)}}>
                         <img src={assets.mic_icon} alt="" />
                         {input ? <img onClick={()=>onSent()} src={assets.send_icon} alt="" /> : null}
                     </div>
