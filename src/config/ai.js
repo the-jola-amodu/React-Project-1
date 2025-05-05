@@ -36,9 +36,12 @@ const response = await ai.models.generateContentStream({
     config,
     contents,
 });
+var fullResponse = ""
 for await (const chunk of response) {
-    console.log(chunk.text);
+    fullResponse += chunk.text
 }
+console.log(fullResponse);
+return fullResponse;
 }
 
 export default runChat;
