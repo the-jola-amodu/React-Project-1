@@ -1,12 +1,16 @@
 import puppeteer from "puppeteer";
-import { HuggingFaceInferenceEmbeddings } from '@langchain/community/embeddings/hf';
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { Index } from '@upstash/vector';
 import { v4 as uuidv4 } from 'uuid';
 
 // const X_RAPIDAPI_KEY = import.meta.env.VITE_X_RAPIDAPI_KEY
 // const X_RAPIDAPI_HOST = import.meta.env.VITE_X_RAPIDAPI_HOST
-// const HUGGING_FACE_API_KEY = import.meta.env.VITE_HUGGING_FACE_API_KEY
+
+const X_RAPIDAPI_KEY = "74490431e9mshacf28cc3ce0c4a0p1668dbjsn020f7651efd8"
+const X_RAPIDAPI_HOST = "linkedin-data-api.p.rapidapi.com"
+const UPSTASH_VECTOR_REST_TOKEN = "ABIFMGFibGUtY3ViLTM1NTYxLXVzMWFkbWluTTJJM01XUXhOelF0WW1OaVlpMDBNalE0TFdGaVpUa3RZekV6WVdJNE5qbGlPVEky"
+const UPSTASH_VECTOR_REST_READONLY_TOKEN = "ABIIMGFibGUtY3ViLTM1NTYxLXVzMXJlYWRvbmx5TW1NeU1UbGhOR010WVRoa1pTMDBaalV4TFRneU1HSXRaVEEyTjJNNFl6a3paamRs"
+const UPSTASH_VECTOR_REST_URL = "https://able-cub-35561-us1-vector.upstash.io"
 
 // Scrapes my portfolio website to get information about me
 export async function scrapePortfolio(url) {
@@ -198,19 +202,16 @@ export async function scrapeAndUpdateDb(){
   });
   const docs = await splitter.createDocuments([joinedText]);
 
-  const embedder = new HuggingFaceInferenceEmbeddings({
-    apiKey: HUGGING_FACE_API_KEY,
-    model: 'sentence-transformers/e5-base-v2', // Or any other
-  });
-
   for (const doc of docs) {
-    const embedding = await embedder.embedQuery(doc.pageContent);
     const id = uuidv4();
     await index.upsert({
       indexName: 'profile-vector-storage',
       id,
-      vector: embedding,
-      metadata: { text: doc.pageContent, timestamp: new Date().toISOString() },
+      data: doc.pageContent,
+      metadata: {
+        text: doc.pageContent,
+        timestamp: new Date().toISOString(), // 🟢 Timestamp
+    },
     });
   }
 }

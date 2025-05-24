@@ -1,5 +1,4 @@
 import { createContext, useState } from "react";
-import runChat from "../config/ai";
 
 export const Context = createContext();
 
@@ -10,6 +9,17 @@ const ContextProvider = (props) => {
     const [showResult, setShowResult] = useState(false);
     const [loading, setLoading] = useState(false);
     const [resultData, setResultData] = useState("");
+
+    const getChatResponse = async (prompt) => {
+        const res = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt }),
+        });
+        console.log(res)
+        const data = await res.json();
+        return data.response;
+    };
 
     const delayPara = (index, nextWord) => {
         setTimeout(function () {
@@ -26,13 +36,13 @@ const ContextProvider = (props) => {
         setShowResult(true);
         let response;
         if(prompt !== undefined){
-            response = await runChat(prompt);
+            response = await getChatResponse(prompt);
             setRecentPrompt(prompt)
         }
         else{
             setPrevPrompts(prev => [...prev, input])
             setRecentPrompt(input)
-            response = await runChat(input)
+            response = await getChatResponse(input);
         }
         
         
