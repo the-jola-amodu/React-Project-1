@@ -2,10 +2,13 @@ import puppeteer from "puppeteer";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { Index } from '@upstash/vector';
 import { v4 as uuidv4 } from 'uuid';
+import 'dotenv/config'
 
-// const X_RAPIDAPI_KEY = import.meta.env.VITE_X_RAPIDAPI_KEY
-// const X_RAPIDAPI_HOST = import.meta.env.VITE_X_RAPIDAPI_HOST
-
+const X_RAPIDAPI_KEY = process.env.VITE_X_RAPIDAPI_KEY
+const X_RAPIDAPI_HOST = process.env.VITE_X_RAPIDAPI_HOST
+const UPSTASH_VECTOR_REST_TOKEN = process.env.VITE_UPSTASH_VECTOR_REST_TOKEN
+const UPSTASH_VECTOR_REST_READONLY_TOKEN = process.env.VITE_UPSTASH_VECTOR_REST_READONLY_TOKEN
+const UPSTASH_VECTOR_REST_URL = process.env.VITE_UPSTASH_VECTOR_REST_URL
 
 // Scrapes my portfolio website to get information about me
 export async function scrapePortfolio(url) {

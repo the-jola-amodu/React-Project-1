@@ -3,11 +3,11 @@ import { HumanMessage, AIMessage, SystemMessage } from "@langchain/core/messages
 import { Index } from '@upstash/vector';
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
 
-// const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY
-// const UPSTASH_VECTOR_REST_TOKEN = import.meta.env.VITE_UPSTASH_VECTOR_REST_TOKEN
-// const UPSTASH_VECTOR_REST_READONLY_TOKEN = import.meta.env.VITE_UPSTASH_VECTOR_REST_READONLY_TOKEN
-// const UPSTASH_VECTOR_REST_URL = import.meta.env.VITE_UPSTASH_VECTOR_REST_URL
-// const SYSTEM_PROMPT = import.meta.env.VITE_SYSTEM_PROMPT
+const GEMINI_API_KEY = process.env.VITE_GEMINI_API_KEY
+const UPSTASH_VECTOR_REST_TOKEN = process.env.VITE_UPSTASH_VECTOR_REST_TOKEN
+const UPSTASH_VECTOR_REST_READONLY_TOKEN = process.env.VITE_UPSTASH_VECTOR_REST_READONLY_TOKEN
+const UPSTASH_VECTOR_REST_URL = process.env.VITE_UPSTASH_VECTOR_REST_URL
+const SYSTEM_PROMPT = process.env.VITE_SYSTEM_PROMPT
 
 const TWO_WEEKS_MS = 14 * 24 * 60 * 60 * 1000;
 let contents = [];
@@ -27,16 +27,14 @@ async function queryWithRefresh(prompt) {
     includeMetadata: true,
   });
 
-  const matches = results.matches || [];
   const now = Date.now();
-  const isStale = matches.length === 0 || matches.some(match => {
+  const isStale = results.length === 0 || results.some(match => {
     const ts = match.metadata?.timestamp;
-    console.log(!ts || now - new Date(ts).getTime())
     return !ts || now - new Date(ts).getTime() > TWO_WEEKS_MS;
   });
 
   if (isStale) {
-    console.log('⚠️ Some data is stale. Refreshing vector DB...');
+    console.log('⚠️ Some data is stale or absent. Refreshing vector DB...');
 
     // 3. Empty the vector index
     await index.reset();
@@ -49,6 +47,7 @@ async function queryWithRefresh(prompt) {
       topK: 3,
       includeMetadata: true,
     });
+    console.log("Database refreshed. Prompting ...")
   }
 
   // 5. Use results if they are fresh

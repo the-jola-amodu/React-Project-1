@@ -47,7 +47,7 @@ const Sidebar = () => {
         </div>
         {showAbout && (
             <div className="about">
-              Customized RAG using Gemini 2.0 flash, custom system prompt and database
+              RAG pipeline using LangChain, Upstash Vector DB, Gemini 2.0 flash, BGE_M3 embedding model
             </div>
           )}
     </div>
