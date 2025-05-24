@@ -9,12 +9,6 @@ import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
 // const UPSTASH_VECTOR_REST_URL = import.meta.env.VITE_UPSTASH_VECTOR_REST_URL
 // const SYSTEM_PROMPT = import.meta.env.VITE_SYSTEM_PROMPT
 
-const GEMINI_API_KEY = "AIzaSyDFxALTQHhuWhh0MHCZlUKO-nkcFRC8NtE"
-const UPSTASH_VECTOR_REST_TOKEN = "ABIFMGFibGUtY3ViLTM1NTYxLXVzMWFkbWluTTJJM01XUXhOelF0WW1OaVlpMDBNalE0TFdGaVpUa3RZekV6WVdJNE5qbGlPVEky"
-const UPSTASH_VECTOR_REST_READONLY_TOKEN = "ABIIMGFibGUtY3ViLTM1NTYxLXVzMXJlYWRvbmx5TW1NeU1UbGhOR010WVRoa1pTMDBaalV4TFRneU1HSXRaVEEyTjJNNFl6a3paamRs"
-const UPSTASH_VECTOR_REST_URL = "https://able-cub-35561-us1-vector.upstash.io"
-const SYSTEM_PROMPT = "You are a shrewd assistant who doesn't say too much unless directly asked to give a long response. You are helpful, and your responses are straight to the point. But in situations where the user enters an unserious prompt, you are not above sarcasm and friendly banter. Otherwise, you give concise and informative answers. You answer the question asked and nothing more."
-
 const TWO_WEEKS_MS = 14 * 24 * 60 * 60 * 1000;
 let contents = [];
 contents.push(new SystemMessage({content: SYSTEM_PROMPT}))

@@ -6,11 +6,6 @@ import { v4 as uuidv4 } from 'uuid';
 // const X_RAPIDAPI_KEY = import.meta.env.VITE_X_RAPIDAPI_KEY
 // const X_RAPIDAPI_HOST = import.meta.env.VITE_X_RAPIDAPI_HOST
 
-const X_RAPIDAPI_KEY = "74490431e9mshacf28cc3ce0c4a0p1668dbjsn020f7651efd8"
-const X_RAPIDAPI_HOST = "linkedin-data-api.p.rapidapi.com"
-const UPSTASH_VECTOR_REST_TOKEN = "ABIFMGFibGUtY3ViLTM1NTYxLXVzMWFkbWluTTJJM01XUXhOelF0WW1OaVlpMDBNalE0TFdGaVpUa3RZekV6WVdJNE5qbGlPVEky"
-const UPSTASH_VECTOR_REST_READONLY_TOKEN = "ABIIMGFibGUtY3ViLTM1NTYxLXVzMXJlYWRvbmx5TW1NeU1UbGhOR010WVRoa1pTMDBaalV4TFRneU1HSXRaVEEyTjJNNFl6a3paamRs"
-const UPSTASH_VECTOR_REST_URL = "https://able-cub-35561-us1-vector.upstash.io"
 
 // Scrapes my portfolio website to get information about me
 export async function scrapePortfolio(url) {
