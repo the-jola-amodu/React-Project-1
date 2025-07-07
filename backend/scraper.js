@@ -1,4 +1,5 @@
-import puppeteer from "puppeteer";
+import puppeteer from "puppeteer-core";
+import chromium from "@sparticuz/chromium";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { Index } from '@upstash/vector';
 import { v4 as uuidv4 } from 'uuid';
@@ -12,7 +13,13 @@ const UPSTASH_VECTOR_REST_URL = process.env.VITE_UPSTASH_VECTOR_REST_URL
 
 // Scrapes my portfolio website to get information about me
 export async function scrapePortfolio(url) {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+  args: chromium.args,
+  defaultViewport: chromium.defaultViewport,
+  executablePath: await chromium.executablePath(),
+  headless: chromium.headless,
+});
+
   const page = await browser.newPage();
 
   await page.goto(url, { waitUntil: "networkidle2" });

@@ -10,16 +10,32 @@ const ContextProvider = (props) => {
     const [loading, setLoading] = useState(false);
     const [resultData, setResultData] = useState("");
 
-    const getChatResponse = async (prompt) => {
+const getChatResponse = async (prompt) => {
+    try {
         const res = await fetch('/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ prompt }),
         });
-        console.log(res)
+
         const data = await res.json();
+
+        if (!res.ok) {
+            throw new Error(data.error || "API returned an error");
+        }
+
+        if (!data.response || typeof data.response !== "string") {
+            throw new Error("Invalid response format");
+        }
+
         return data.response;
-    };
+
+    } catch (err) {
+        console.error("getChatResponse error:", err);
+        return "I'm sorry, something went wrong with the server response.";
+    }
+};
+
 
     const delayPara = (index, nextWord) => {
         setTimeout(function () {
